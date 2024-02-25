@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Search Result{% endblock %}
+{% block head %}
+{% include "partials/auth_head.html" %}
+{% endblock%}
+{% block body %}
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <!-- Menu -->
+
+    {% include "partials/sidebar.html" %}
+    <!-- / Menu -->
+    <!-- Layout container -->
+    <div class="layout-page">
+      {% include "partials/login_nav.html" %}
+      <div class="content-wrapper">
+        <!-- Content -->
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Notifications /</span>Results</h4>
+          {% include "partials/messages.html" %}
+           <!-- Horizontal -->
+           <h5 class="pb-1 mb-4 text-center">Searched Result:{% if notifications.count  %} {{ notifications.count }} {% else %}
+            0 {% endif %} </h5>
+           <div class="row mb-5">
+            {% for notify in notifications  %}
+            <div class="col-md-6">
+              <a href="{% url 'super:view_notification' notify.id %}">
+                <div class="card mb-3">
+                  <div class="row g-0">
+                    <div class="col-md-4 col-sm-12">
+                     {% if notify.image %}
+                       <img class="card-img card-img-left" src="{{ notify.image.url }}" alt="Card image" />
+                     {% else %}
+                       <img class="card-img card-img-left" src="{% static 'uploaded/uploads/update.jpg' %}" alt="Card image"/>
+                     {% endif %}
+                    </div>
+                    <div class="col-md-8 col-lg-8 col-sm-12">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ notify.title|slice:"24" }}...</h5>
+                        <p class="card-text mb-5">{{ notify.description|slice:"160" }}...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
+           </div>
+           <!--/ Horizontal -->
+        </div>
+        <!-- / Content -->
+        {% include "partials/login_footer.html" %}
+
+        <div class="content-backdrop fade"></div>
+      </div>
+      <!-- Content wrapper -->
+    </div>
+    <!-- / Layout page -->
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+{% include "partials/auth_script.html" %}
+{% endblock %}

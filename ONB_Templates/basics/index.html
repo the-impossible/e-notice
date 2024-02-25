@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Home{% endblock %}
+{% block head %}
+	{% include 'partials/head.html' %}
+{% endblock %}
+{% block body %}
+
+  {% include "partials/nav.html" %}
+
+<section class="section">
+  <div class="container">
+    {% include "partials/messages.html" %}
+    <div class="row mb-4">
+      <div class="col-sm-6">
+        <h2 class="posts-entry-title">News</h2>
+      </div>
+    </div>
+
+    <div class="row">
+
+      {% for post in notifications %}
+      <div class="col-lg-4 mb-4">
+        <div class="post-entry-alt">
+          <a href="{{ post.image.url }}" class="img-link" target="_blank"><img src="{{ post.image.url }}" alt="Image" class="img-fluid"></a>
+          <div class="excerpt">
+
+            <h2><a href="{% url 'basics:view_notification' post.pk %}">{{ post.title }}</a></h2>
+            <div class="post-meta align-items-center text-left clearfix">
+              <figure class="author-figure mb-0 me-3 float-start"><img src="{% static 'img/user.png' %}" alt="Image" class="img-fluid"></figure>
+              <span class="d-inline-block mt-1">By <a>{{post.created_by.fullname}}</a></span>
+              <span>&nbsp;-&nbsp; {{post.date_created}}</span>
+            </div>
+
+            <p>{{post.description|truncatechars:200}}.</p>
+            <p><a href="{% url 'basics:view_notification' post.pk %}" class="read-more">Continue Reading</a></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+<!-- End posts-entry -->
+
+ {% include "partials/footer.html" %}
+
+{% include "partials/script.html" %}
+
+{% endblock %}
